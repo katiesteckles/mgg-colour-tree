@@ -2,7 +2,7 @@ import csv
 import string
 import sys
 
-with open('/home/pi/Desktop/colours.csv', 'Ur') as f:
+with open('colours.csv', 'Ur') as f:
 #with open('colours.csv', 'r') as f:
     reader = csv.reader(f)
     colours = list(reader)
@@ -24,5 +24,5 @@ for i in range(1,len(colours)):
     if colours[i][0] in inputstring_np:
         #print(inputstring_np)
         #print(colours[i][0])
-        print(colours[i][1]),
+        print(colours[i][1])
         break
