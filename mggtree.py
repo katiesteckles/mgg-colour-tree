@@ -15,7 +15,16 @@ APP_KEY = 'Fyu91pHPzP7PnHrjeJCVO92KA'
 APP_SECRET = 'WOSLUjfqmxtCNxCBtorrIHmTmtAjcFgM2qKL6xUPukeHIPm2s5'
 
 twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
-ACCESS_TOKEN = twitter.obtain_access_token()
+
+connected = False
+while not connected:
+    connected = True
+    try:
+        ACCESS_TOKEN = twitter.obtain_access_token()
+    except:
+        connected = False
+        print('oh noes whar is internets?')
+        time.sleep(30)
 
 twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
 
