@@ -28,7 +28,7 @@ while not connected:
 
 twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
 
-with open('colours.csv', 'Ur') as f:
+with open('/home/pi/Desktop/colours.csv', 'Ur') as f:
 	reader = csv.reader(f)
 	colours = list(reader)
 
