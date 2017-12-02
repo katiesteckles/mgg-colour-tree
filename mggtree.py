@@ -5,60 +5,38 @@ import csv
 import string
 import sys
 import colorsys
-import time
-from blinkt import set_brightness, set_pixel, show
 
 blinkt.clear()
 blinkt.show()
 
 APP_KEY = 'Fyu91pHPzP7PnHrjeJCVO92KA'
 APP_SECRET = 'WOSLUjfqmxtCNxCBtorrIHmTmtAjcFgM2qKL6xUPukeHIPm2s5'
-
 twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
-
-connected = False
-while not connected:
-    connected = True
-    try:
-        ACCESS_TOKEN = twitter.obtain_access_token()
-    except:
-        connected = False
-        print('oh noes whar is internets?')
-        time.sleep(30)
-
+ACCESS_TOKEN = twitter.obtain_access_token()
 twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
 
 with open('/home/pi/Desktop/colours.csv', 'Ur') as f:
-	reader = csv.reader(f)
-	colours = list(reader)
+	colours = list(csv.reader(f))
 
 def hex_to_rgb(hex):
-	if len(hex) == 3:
-		hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
-	r = hex[0:1]
-	g = hex[2:3]
-	b = hex[4:5]
-	r = int(r, base=16)
-	g = int(g, base=16)
-	b = int(b, base=16)
+	if len(hex) == 3: hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+	r = int(hex[0:1], base=16)
+	g = int(hex[2:3], base=16)
+	b = int(hex[4:5], base=16)
 	return r, g, b
 
 def colourCheck(inputstring):
-    inputstring_lc = inputstring.lower()
-    print(inputstring_lc)
-    punctuations = set(string.punctuation)
-    inputstring_np = ''.join(char for char in inputstring_lc if char not in punctuations)
-    print(inputstring_np)
+    inputstring = inputstring.lower()
+    inputstring = ''.join(char for char in inputstring if char not in string.punctuation)
     
     for i in range(1,len(colours)):
-        if colours[i][0] in inputstring_np:
-            print(colours[i][1][1:])
+        if colours[i][0] in inputstring:
             return(colours[i][1][1:])
         	
 def rainbowit():
 	spacing = 360.0 / 16.0
 	hue = 0
-	set_brightness(0.1)
+	blinkt.set_brightness(0.1)
 	
 	for i in range(500):	
 		hue = int(time.time() * 100) % 360
@@ -66,8 +44,8 @@ def rainbowit():
 			offset = x * spacing
 			h = ((hue + offset) % 360) / 360.0
 			r, g, b = [int(c * 255) for c in colorsys.hsv_to_rgb(h, 1.0, 1.0)]
-			set_pixel(x, r, g, b)
-		show()
+			blinkt.set_pixel(x, r, g, b)
+		blinkt.show()
 		time.sleep(0.001)
 
 while True:
