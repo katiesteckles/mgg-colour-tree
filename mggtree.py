@@ -30,6 +30,10 @@ def colourCheck(inputstring):
     inputstring = ''.join(char for char in inputstring if char not in string.punctuation)
     
     for i in range(1,len(colours)):
+	print(colours[i][0])
+	print(inputstring)
+	print(type(colours[i][0]))
+	print(type(inputstring))
         if colours[i][0] in inputstring:
             return(colours[i][1][1:])
         	
@@ -54,8 +58,6 @@ while True:
     twindex = 0
     haveSetColour = False
     while not haveSetColour:
-        print(type(tweets[0]['text']))
-        print(type(u' '))
         tweet = u' ' + tweets[twindex]['text'] + u' '
         if 'rainbow' in tweet.lower():
             haveSetColour = True
