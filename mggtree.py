@@ -30,10 +30,6 @@ def colourCheck(inputstring):
     inputstring = ''.join(char for char in inputstring if char not in string.punctuation)
     
     for i in range(1,len(colours)):
-	print(colours[i][0])
-	print(inputstring)
-	print(type(colours[i][0]))
-	print(type(inputstring))
         if colours[i][0] in inputstring:
             return(colours[i][1][1:])
         	
@@ -53,8 +49,7 @@ def rainbowit():
 		time.sleep(0.001)
 
 while True:
-    search = twitter.search(q='#cheerlights')
-    tweets = search['statuses']
+    tweets = twitter.search(q='#cheerlights')['statuses']
     twindex = 0
     haveSetColour = False
     while not haveSetColour:
