@@ -9,8 +9,8 @@ import colorsys
 blinkt.clear()
 blinkt.show()
 
-APP_KEY = 'Fyu91pHPzP7PnHrjeJCVO92KA'
-APP_SECRET = 'WOSLUjfqmxtCNxCBtorrIHmTmtAjcFgM2qKL6xUPukeHIPm2s5'
+APP_KEY = 'JIc3EBbNiztKN0JXmVtvX75jG'
+APP_SECRET = '4lE1SQefBkWMIjzChTFh1BBc13vEGIGGKOC8ciuOaVW4p9yMPx'
 twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
 ACCESS_TOKEN = twitter.obtain_access_token()
 twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
@@ -38,7 +38,7 @@ def rainbowit():
 	hue = 0
 	blinkt.set_brightness(0.1)
 	
-	for i in range(500):	
+	for i in range(1000):	
 		hue = int(time.time() * 100) % 360
 		for x in range(8):
 			offset = x * spacing
@@ -47,6 +47,18 @@ def rainbowit():
 			blinkt.set_pixel(x, r, g, b)
 		blinkt.show()
 		time.sleep(0.001)
+		
+def candycane(stripecolour):
+    blinkt.set_brightness(0.4)
+    wv=[200,200,200]
+    blinkt.set_pixel(0, *wv)
+    blinkt.set_pixel(1, *wv)
+    blinkt.set_pixel(2, *stripecolour)
+    blinkt.set_pixel(3, *stripecolour)
+    blinkt.set_pixel(4, *wv)
+    blinkt.set_pixel(5, *wv)
+    blinkt.set_pixel(6, *stripecolour)
+    blinkt.set_pixel(7, *stripecolour)
 
 while True:
     tweets = twitter.search(q='#cheerlights')['statuses']
@@ -59,10 +71,14 @@ while True:
             rainbowit()
         elif colourCheck(tweet) is not None:
             c = hex_to_rgb(colourCheck(tweet))
-            blinkt.set_all(c[0], c[1], c[2], 0.4)
+            if 'candycane' in tweet.lower():
+                candycane(c)
+            else:
+                blinkt.set_all(c[0], c[1], c[2], 0.4)
             blinkt.show()
             haveSetColour = True		
+            time.sleep(10)
         else:
             twindex += 1
             if twindex >= len(tweets): haveSetColour = True
-    time.sleep(10)
+
